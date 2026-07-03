@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecurePass Pro</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>🔐 SecurePass Pro</h1>
+
+        <p class="subtitle">
+            Generate military-grade passwords instantly
+        </p>
+
+        <div class="input-group">
+
+            <label>Password Length</label>
+
+            <input type="range"
+                   id="length"
+                   min="4"
+                   max="32"
+                   value="12">
+
+            <span id="lengthValue">12</span>
+
+        </div>
+
+        <div class="checkboxes">
+
+            <label>
+                <input type="checkbox" id="uppercase" checked>
+                Uppercase
+            </label>
+
+            <label>
+                <input type="checkbox" id="lowercase" checked>
+                Lowercase
+            </label>
+
+            <label>
+                <input type="checkbox" id="numbers" checked>
+                Numbers
+            </label>
+
+            <label>
+                <input type="checkbox" id="symbols" checked>
+                Special Characters
+            </label>
+
+        </div>
+
+        <button id="generateBtn">
+            Generate Password
+        </button>
+
+        <div class="output">
+
+            <input
+                    type="text"
+                    id="password"
+                    readonly>
+
+            <button id="copyBtn">
+                📋 Copy
+            </button>
+
+        </div>
+
+        <div id="strength">
+
+            Password Strength
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
