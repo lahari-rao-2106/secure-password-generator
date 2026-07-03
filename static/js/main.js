@@ -13,12 +13,16 @@ import { renderStrength }       from "./strength.js";
 import { renderEntropy }        from "./entropy.js";
 import { renderBulkPasswords }  from "./bulk.js";
 import { renderPassword }       from "./output.js";
-import { refreshHistory, initHistory } from "./history.js";
+import { refreshHistory,
+         initHistory,
+         addToHistory,
+         getHistory }           from "./history.js";
 import { copyText }             from "./copy.js";
 import { showToast }            from "./toast.js";
 import { initTips }             from "./tips.js";
 import { bindGenerate }         from "./generate.js";
 import { initFooter }           from "./footer.js";
+import { initFeatureModal }     from "./modal.js";
 
 // ---------- Element handles ----------
 const els = {
@@ -59,6 +63,7 @@ function init() {
     initHistory();
     initTips();
     initFooter();
+    initFeatureModal();
     refreshHistory();
 
     // Show/hide password eye
@@ -92,16 +97,24 @@ function init() {
         }
     });
 
-    // Download history
+    // Download history — built entirely client-side from the in-memory
+    // session array. Nothing is fetched from the server.
     els.downloadBtn.addEventListener("click", () => {
-        // Native browser download via temporary anchor
-        const a = document.createElement("a");
-        a.href = "/history/download";
+        const items = getHistory();
+        if (items.length === 0) {
+            showToast("No history to download yet", "info");
+            return;
+        }
+        const blob = new Blob([items.join("\n") + "\n"], { type: "text/plain" });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement("a");
+        a.href = url;
         a.download = "password_history.txt";
         document.body.appendChild(a);
         a.click();
         a.remove();
-        showToast("Downloading password history…", "info");
+        URL.revokeObjectURL(url);
+        showToast("Downloaded your session history", "success");
     });
 
     // Main generate flow
@@ -112,6 +125,7 @@ function init() {
             renderPassword(els.passwordField, data.password);
             renderStrength(els.strengthLabel, els.strengthFill, data.strength);
             renderEntropy(els.entropyValue, els.entropyQuality, data.entropy);
+            addToHistory(data.password);
             refreshHistory();
         },
         onBulkResult: (data) => {
@@ -119,6 +133,7 @@ function init() {
             renderStrength(els.strengthLabel, els.strengthFill, data.strength);
             renderEntropy(els.entropyValue, els.entropyQuality, data.entropy);
             renderBulkPasswords(data.passwords);
+            data.passwords.forEach(addToHistory);
             refreshHistory();
         },
         onError: (msg) => showToast(msg, "error"),

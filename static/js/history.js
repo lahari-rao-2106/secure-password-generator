@@ -1,37 +1,34 @@
 /* =====================================================================
-   history.js  —  Fetch + render the recent passwords
-   Uses the /history endpoint. Each row has a copy button.
+   history.js  —  In-memory session-only password history
+   ---------------------------------------------------------------------
+   Passwords live in a plain JS array. Module scope means the array is
+   re-created on every full page load (refresh, navigation, reopening
+   the tab) — so a refresh clears all history. Nothing is written to
+   localStorage, sessionStorage, IndexedDB, cookies, or the server.
 
    Behavior:
-   - Fetches up to MAX_ITEMS (10) most recent passwords.
-   - Renders them all into the list, but the list is *collapsed* by
-     default (CSS hides items past the third via data-collapsed="true").
-   - The "View more" / "View less" button (wired in initHistory) flips
-     the data-collapsed attribute, which expands or collapses the list.
-   - The count badge in the header is updated to reflect the total.
+   - addToHistory(pwd)  → push to the front, dedupe, cap at MAX_HISTORY.
+   - getHistory()       → defensive copy for the Download button.
+   - clearHistory()     → wipe and re-render (kept for completeness).
+   - refreshHistory()   → render the in-memory array.
+   - The expand/collapse toggle (#expandHistoryBtn) is still bound in
+     initHistory so the existing UI contract is unchanged.
    ===================================================================== */
 
-import { getJSON }    from "./api.js";
-import { copyText }   from "./copy.js";
-import { showToast }  from "./toast.js";
+import { copyText }  from "./copy.js";
+import { showToast } from "./toast.js";
 
-const MAX_ITEMS = 10;   // we fetch up to 10; show 3 by default.
-
-/* Bind the expand/collapse button once on init. It is a stateful toggle
-   that only makes sense as long as the list exists, so we cache the
-   elements here. */
-let _els = null;
+const MAX_HISTORY = 10;
+let _history = []; // newest first
 
 function collectEls() {
-    if (_els) return _els;
     const list   = document.getElementById("historyList");
     const expand = document.getElementById("expandHistoryBtn");
     if (!list || !expand) return null;
-    _els = { list, expand };
-    return _els;
+    return { list, expand };
 }
 
-/* Wire the expand/collapse button + restore its label. */
+/* Wire the expand/collapse button once on init. */
 export function initHistory() {
     const els = collectEls();
     if (!els) return;
@@ -48,33 +45,44 @@ export function initHistory() {
     });
 }
 
-export async function refreshHistory() {
-    const list  = document.getElementById("historyList");
+/* Public: push a password to the front, dedupe, cap, then re-render. */
+export function addToHistory(pwd) {
+    if (!pwd) return;
+    _history = [pwd, ..._history.filter((p) => p !== pwd)].slice(0, MAX_HISTORY);
+    refreshHistory();
+}
+
+/* Public: defensive copy of the current history. */
+export function getHistory() {
+    return _history.slice();
+}
+
+/* Public: wipe history (kept for parity with the original API). */
+export function clearHistory() {
+    _history = [];
+    refreshHistory();
+}
+
+/* Render the in-memory array into the existing .history__list markup. */
+export function refreshHistory() {
+    const els = collectEls();
+    if (!els) return;
+
+    const list  = els.list;
     const count = document.getElementById("historyCount");
-    if (!list) return;
 
-    const { ok, data } = await getJSON(`/history?limit=${MAX_ITEMS}`);
-    if (!ok) return;
-
-    const history = data.history || [];
-
-    // Update the count badge (or hide it when there are 0 items).
     if (count) {
-        count.textContent = String(history.length);
-        if (history.length === 0) {
-            count.style.display = "none";
-        } else {
-            count.style.display = "";
-        }
+        count.textContent = String(_history.length);
+        count.style.display = _history.length === 0 ? "none" : "";
     }
 
-    if (history.length === 0) {
+    if (_history.length === 0) {
         list.innerHTML = '<li class="history__empty">No history yet — generate your first password.</li>';
         return;
     }
 
     list.innerHTML = "";
-    history.forEach((pwd, idx) => {
+    _history.forEach((pwd, idx) => {
         const li = document.createElement("li");
         li.className = "history__item";
         li.style.animationDelay = `${idx * 0.04}s`;

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+  <title>Detective cat with magnifying glass and a vault</title>
+
+  <!-- ground shadow -->
+  <ellipse cx="100" cy="178" rx="60" ry="6" fill="#06B6D4" opacity="0.18"/>
+
+  <!-- vault body -->
+  <g transform="translate(118 70)">
+    <rect x="0" y="0" width="58" height="78" rx="10" fill="#0b1530" stroke="#67E8F9" stroke-width="2"/>
+    <rect x="6" y="6" width="46" height="66" rx="6" fill="#1e3a8a" opacity="0.45"/>
+    <!-- dial -->
+    <circle cx="29" cy="36" r="14" fill="#050816" stroke="#67E8F9" stroke-width="2"/>
+    <circle cx="29" cy="36" r="3" fill="#67E8F9"/>
+    <line x1="29" y1="36" x2="29" y2="24" stroke="#67E8F9" stroke-width="2" stroke-linecap="round"/>
+    <!-- handle -->
+    <rect x="22" y="55" width="14" height="3" rx="1.5" fill="#67E8F9"/>
+    <!-- feet -->
+    <rect x="6"  y="78" width="8" height="6" fill="#0b1530" stroke="#67E8F9" stroke-width="1.5"/>
+    <rect x="44" y="78" width="8" height="6" fill="#0b1530" stroke="#67E8F9" stroke-width="1.5"/>
+  </g>
+
+  <!-- cat body (sitting, white-cream) -->
+  <g transform="translate(38 70)">
+    <!-- tail curling out behind -->
+    <path d="M0 60 q -18 4 -16 -14 q 2 -10 14 -8" stroke="#E2E8F0" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <!-- body -->
+    <ellipse cx="40" cy="80" rx="28" ry="22" fill="#E2E8F0"/>
+    <!-- chest -->
+    <ellipse cx="40" cy="84" rx="14" ry="12" fill="#FFFFFF"/>
+    <!-- head -->
+    <ellipse cx="40" cy="42" rx="26" ry="24" fill="#E2E8F0"/>
+    <!-- ears -->
+    <path d="M22 26 L18 8 L34 22 Z" fill="#E2E8F0"/>
+    <path d="M58 26 L62 8 L46 22 Z" fill="#E2E8F0"/>
+    <path d="M24 22 L22 12 L30 22 Z" fill="#7C3AED" opacity="0.7"/>
+    <path d="M56 22 L58 12 L50 22 Z" fill="#7C3AED" opacity="0.7"/>
+    <!-- detective hat -->
+    <ellipse cx="40" cy="22" rx="26" ry="4" fill="#1e293b"/>
+    <rect x="18" y="6" width="44" height="16" rx="2" fill="#1e293b"/>
+    <rect x="14" y="20" width="52" height="5" rx="2" fill="#0b1530"/>
+    <!-- hat band -->
+    <rect x="18" y="18" width="44" height="3" fill="#7C3AED"/>
+    <!-- eyes -->
+    <circle cx="32" cy="44" r="2.4" fill="#050816"/>
+    <circle cx="48" cy="44" r="2.4" fill="#050816"/>
+    <!-- nose & mouth -->
+    <path d="M38 50 L42 50 L40 53 Z" fill="#7C3AED"/>
+    <path d="M40 53 q -3 3 -6 1 M40 53 q 3 3 6 1" stroke="#050816" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <!-- whiskers -->
+    <line x1="14" y1="50" x2="28" y2="50" stroke="#94A3B8" stroke-width="1"/>
+    <line x1="14" y1="54" x2="28" y2="52" stroke="#94A3B8" stroke-width="1"/>
+    <line x1="52" y1="50" x2="66" y2="50" stroke="#94A3B8" stroke-width="1"/>
+    <line x1="52" y1="52" x2="66" y2="54" stroke="#94A3B8" stroke-width="1"/>
+  </g>
+
+  <!-- magnifying glass (in front, hand-drawn) -->
+  <g transform="translate(70 90) rotate(-15)">
+    <circle cx="0" cy="0" r="16" fill="#67E8F9" opacity="0.10" stroke="#67E8F9" stroke-width="2.5"/>
+    <circle cx="0" cy="0" r="12" fill="#67E8F9" opacity="0.18"/>
+    <!-- handle -->
+    <rect x="11" y="11" width="22" height="6" rx="3" transform="rotate(45 11 11)" fill="#7C3AED"/>
+  </g>
+
+  <!-- sparkles around vault -->
+  <g fill="#67E8F9" opacity="0.85">
+    <path d="M118 60 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 l4 -1.5 z"/>
+    <path d="M178 70 l1 3 l3 1 l-3 1 l-1 3 l-1 -3 l-3 -1 l3 -1 z" opacity="0.7"/>
+    <path d="M170 138 l1 3 l3 1 l-3 1 l-1 3 l-1 -3 l-3 -1 l3 -1 z" opacity="0.6"/>
+  </g>
+</svg>

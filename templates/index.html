@@ -56,42 +56,77 @@
 
                 <div class="rail__tagline">Password Security.<br><em>Reimagined.</em></div>
 
-                <!-- Compact feature cards — informational, not advertising -->
+                <!-- Compact feature cards — clickable, open a glass modal -->
                 <ul class="rail__features">
-                    <li class="rail__feature">
-                        <span class="rail__icon" aria-hidden="true">🛡</span>
-                        <div class="rail__feature-text">
-                            <div class="rail__feature-title">Secure RNG</div>
-                            <div class="rail__feature-sub">Uses Python's <code>secrets</code> module.</div>
-                        </div>
+                    <li>
+                        <button type="button"
+                                class="rail__feature"
+                                data-feature="secure"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                aria-controls="featureModal">
+                            <span class="rail__icon" aria-hidden="true">🛡</span>
+                            <span class="rail__feature-text">
+                                <span class="rail__feature-title">Secure RNG</span>
+                                <span class="rail__feature-sub">Powered by Python's <code>secrets</code> module. Not luck.</span>
+                            </span>
+                        </button>
                     </li>
-                    <li class="rail__feature">
-                        <span class="rail__icon" aria-hidden="true">⚡</span>
-                        <div class="rail__feature-text">
-                            <div class="rail__feature-title">High Entropy</div>
-                            <div class="rail__feature-sub">Cryptographically secure randomness.</div>
-                        </div>
+                    <li>
+                        <button type="button"
+                                class="rail__feature"
+                                data-feature="entropy"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                aria-controls="featureModal">
+                            <span class="rail__icon" aria-hidden="true">⚡</span>
+                            <span class="rail__feature-text">
+                                <span class="rail__feature-title">High Entropy</span>
+                                <span class="rail__feature-sub">Strong enough to make brute-force attacks question their career choices.</span>
+                            </span>
+                        </button>
                     </li>
-                    <li class="rail__feature">
-                        <span class="rail__icon" aria-hidden="true">📋</span>
-                        <div class="rail__feature-text">
-                            <div class="rail__feature-title">One-click Copy</div>
-                            <div class="rail__feature-sub">Instant clipboard support.</div>
-                        </div>
+                    <li>
+                        <button type="button"
+                                class="rail__feature"
+                                data-feature="copy"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                aria-controls="featureModal">
+                            <span class="rail__icon" aria-hidden="true">📋</span>
+                            <span class="rail__feature-text">
+                                <span class="rail__feature-title">One-click Copy</span>
+                                <span class="rail__feature-sub">Ctrl+C without the Ctrl+C.</span>
+                            </span>
+                        </button>
                     </li>
-                    <li class="rail__feature">
-                        <span class="rail__icon" aria-hidden="true">🔒</span>
-                        <div class="rail__feature-text">
-                            <div class="rail__feature-title">Zero Storage</div>
-                            <div class="rail__feature-sub">Passwords never leave your browser.</div>
-                        </div>
+                    <li>
+                        <button type="button"
+                                class="rail__feature"
+                                data-feature="history"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                aria-controls="featureModal">
+                            <span class="rail__icon" aria-hidden="true">🕘</span>
+                            <span class="rail__feature-text">
+                                <span class="rail__feature-title">Password History</span>
+                                <span class="rail__feature-sub">We keep only your latest passwords during this session.</span>
+                            </span>
+                        </button>
                     </li>
-                    <li class="rail__feature">
-                        <span class="rail__icon" aria-hidden="true">📈</span>
-                        <div class="rail__feature-text">
-                            <div class="rail__feature-title">Multi Generation</div>
-                            <div class="rail__feature-sub">Generate 1, 5 or 10 passwords at once.</div>
-                        </div>
+                    <li>
+                        <button type="button"
+                                class="rail__feature"
+                                data-feature="multi"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                aria-controls="featureModal">
+                            <span class="rail__icon" aria-hidden="true">📦</span>
+                            <span class="rail__feature-text">
+                                <span class="rail__feature-title">Multi Generation</span>
+                                <span class="rail__feature-sub">Because one password is never enough.</span>
+                            </span>
+                        </button>
                     </li>
                 </ul>
 
@@ -366,6 +401,72 @@
     </footer>
 
     <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- ============== Feature modal ============== -->
+    <div id="featureModal"
+         class="modal-overlay"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="modalTitle"
+         aria-hidden="true">
+        <div class="modal" role="document">
+            <button type="button"
+                    class="modal__close"
+                    data-modal-close
+                    aria-label="Close feature details">
+                <span aria-hidden="true">✕</span>
+            </button>
+
+            <div data-modal-body></div>
+
+            <div class="modal__footer">
+                <button type="button"
+                        class="modal__chev"
+                        data-modal-prev
+                        aria-label="Previous feature">
+                    <span aria-hidden="true">‹</span>
+                </button>
+                <div class="modal__dots" data-modal-dots role="tablist" aria-label="Feature navigation"></div>
+                <button type="button"
+                        class="modal__chev"
+                        data-modal-next
+                        aria-label="Next feature">
+                    <span aria-hidden="true">›</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== Modal content templates ============== -->
+    <template data-feature-template="secure">
+        <img class="modal__illustration" src="{{ url_for('static', filename='img/feature-secure.svg') }}" alt="">
+        <h3 class="modal__title" id="modalTitle">Secure RNG</h3>
+        <p class="modal__body">Powered by Python's <code>secrets</code> module.<br>Not luck.</p>
+    </template>
+
+    <template data-feature-template="entropy">
+        <img class="modal__illustration" src="{{ url_for('static', filename='img/feature-entropy.svg') }}" alt="">
+        <h3 class="modal__title" id="modalTitle">High Entropy</h3>
+        <p class="modal__body">Strong enough to make brute-force attacks<br>question their career choices.</p>
+    </template>
+
+    <template data-feature-template="copy">
+        <img class="modal__illustration" src="{{ url_for('static', filename='img/feature-copy.svg') }}" alt="">
+        <h3 class="modal__title" id="modalTitle">One-click Copy</h3>
+        <p class="modal__body">Ctrl+C<br>without the Ctrl+C.</p>
+    </template>
+
+    <template data-feature-template="history">
+        <img class="modal__illustration" src="{{ url_for('static', filename='img/feature-storage.svg') }}" alt="">
+        <h3 class="modal__title" id="modalTitle">Password History</h3>
+        <p class="modal__body">We keep only your latest passwords<br>during this session.<br><br>Refresh the page,<br>and they disappear.</p>
+    </template>
+
+    <template data-feature-template="multi">
+        <img class="modal__illustration" src="{{ url_for('static', filename='img/feature-multi.svg') }}" alt="">
+        <h3 class="modal__title" id="modalTitle">Multi Generation</h3>
+        <p class="modal__body">Because one password<br>is never enough.</p>
+    </template>
 
 </body>
 

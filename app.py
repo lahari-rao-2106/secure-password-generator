@@ -1,23 +1,17 @@
 """
 SecurePass Pro - Flask backend.
 
-The original / and /generate routes are preserved exactly so the existing
-UI continues to work. Three new endpoints have been added to support the
-new UI features (multi-generation, history list, history download) without
-breaking anything that already exists.
+Password generation logic is unchanged. Passwords are NEVER written to
+disk: history lives only in the browser's JavaScript memory (see
+static/js/history.js) so a refresh or tab close clears it. The
+generator routes below return the password to the client and forget it.
 """
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify
 import random
 import string
-import os
 import math
 
 app = Flask(__name__)
-
-# History file is rolling - we trim to the last N entries on every write so it
-# never grows without bound on a long-running server.
-HISTORY_FILE = "static/passwords/history.txt"
-HISTORY_LIMIT = 200  # Max lines kept on disk; UI only ever reads the last 5.
 
 
 def password_strength(length):
@@ -86,34 +80,6 @@ def generate_password(length, upper, lower, numbers, symbols):
     return "".join(password)
 
 
-def _append_history(passwords):
-    """Append a list of passwords to history and trim to HISTORY_LIMIT lines."""
-    os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
-    with open(HISTORY_FILE, "a", encoding="utf-8") as f:
-        for p in passwords:
-            f.write(p + "\n")
-
-    # Trim so the file never grows forever on a long-lived server.
-    try:
-        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-            lines = f.readlines()
-        if len(lines) > HISTORY_LIMIT:
-            with open(HISTORY_FILE, "w", encoding="utf-8") as f:
-                f.writelines(lines[-HISTORY_LIMIT:])
-    except FileNotFoundError:
-        pass
-
-
-def _read_history(limit=5):
-    """Return the last `limit` passwords, most recent first."""
-    try:
-        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-            lines = [l.strip() for l in f.readlines() if l.strip()]
-        return list(reversed(lines[-limit:]))
-    except FileNotFoundError:
-        return []
-
-
 # ------------------------------------------------------------------ routes
 
 @app.route("/")
@@ -149,8 +115,6 @@ def generate():
         data["symbols"],
     )
 
-    _append_history([password])
-
     return jsonify({
         "password": password,
         "strength": strength,
@@ -185,34 +149,11 @@ def generate_multiple():
     entropy = calculate_entropy(length, upper, lower, numbers, symbols)
     strength = password_strength(length)
 
-    _append_history(passwords)
-
     return jsonify({
         "passwords": passwords,
         "entropy": entropy,
         "strength": strength,
     })
-
-
-@app.route("/history")
-def history():
-    """Return the most recent N passwords (default 5), most recent first."""
-    limit = int(request.args.get("limit", 5))
-    return jsonify({"history": _read_history(limit)})
-
-
-@app.route("/history/download")
-def history_download():
-    """Send the rolling history file as a downloadable text file."""
-    if not os.path.exists(HISTORY_FILE):
-        # Ensure the file exists so the download is always a valid (possibly empty) file.
-        os.makedirs(os.path.dirname(HISTORY_FILE), exist_ok=True)
-        open(HISTORY_FILE, "w", encoding="utf-8").close()
-    return send_file(
-        HISTORY_FILE,
-        as_attachment=True,
-        download_name="password_history.txt",
-    )
 
 
 if __name__ == "__main__":

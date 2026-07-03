@@ -1,0 +1,242 @@
+/* =====================================================================
+   modal.css  —  Glassmorphism modal for the feature cards
+   ---------------------------------------------------------------------
+   Triggered by clicking any .rail__feature button. The overlay blurs +
+   darkens the page, and a centred dialog fades + scales in. Closes on
+   Escape, overlay click, or the close button. The focus-trap module
+   (static/js/focus-trap.js) keeps keyboard focus inside the dialog.
+   ===================================================================== */
+
+/* =====================================================================
+   Overlay
+   ---------------------------------------------------------------------
+   Fixed full-viewport layer that sits above the page chrome. We blur
+   the live page underneath (not a cloned snapshot) for the modern
+   frosted-glass feel. Default state is invisible + non-interactive so
+   it doesn't catch stray clicks.
+   ===================================================================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: grid;
+    place-items: center;
+    padding: clamp(16px, 4vw, 40px);
+
+    background: rgba(5, 8, 22, 0.55);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms var(--ease-out);
+}
+.modal-overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =====================================================================
+   Dialog
+   ---------------------------------------------------------------------
+   The card itself. Reuses the existing blue-glass surface tokens so it
+   reads as part of the same product, with a slightly stronger border
+   and a cyan glow to lift it off the blurred background.
+   ===================================================================== */
+.modal {
+    position: relative;
+    width: min(460px, 100%);
+    max-height: calc(100vh - 80px);
+    overflow: auto;
+    padding: 28px 28px 24px;
+    border-radius: var(--r-xl);
+
+    background: linear-gradient(180deg,
+        rgba(20, 40, 90, 0.62) 0%,
+        rgba(15, 30, 70, 0.52) 100%);
+    backdrop-filter: blur(24px) saturate(170%);
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+
+    border: 1px solid rgba(120, 170, 255, 0.28);
+    color: var(--text-1);
+
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 0 60px rgba(6, 182, 212, 0.20);
+
+    transform: scale(0.94) translateY(8px);
+    opacity: 0;
+    transition: transform 300ms var(--ease-out),
+                opacity   300ms var(--ease-out);
+}
+.modal-overlay.is-open .modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* =====================================================================
+   Close button
+   ===================================================================== */
+.modal__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-sm);
+    display: grid;
+    place-items: center;
+    color: var(--text-3);
+    font-size: 16px;
+    transition: background var(--t-fast) var(--ease-out),
+                color var(--t-fast) var(--ease-out);
+}
+.modal__close:hover,
+.modal__close:focus-visible {
+    background: rgba(239, 68, 68, 0.18);
+    color: var(--color-danger);
+}
+
+/* =====================================================================
+   Illustration
+   ===================================================================== */
+.modal__illustration {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 18px;
+    display: block;
+    object-fit: contain;
+    animation: floatYSmall 5s ease-in-out infinite;
+    filter: drop-shadow(0 8px 24px rgba(6, 182, 212, 0.25));
+}
+
+/* =====================================================================
+   Title + body
+   ===================================================================== */
+.modal__title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    text-align: center;
+    margin-bottom: 10px;
+    background: var(--grad-title);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradientShift 6s ease-in-out infinite;
+}
+
+.modal__body {
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-2);
+    margin: 0 auto 4px;
+    max-width: 38ch;
+}
+
+/* =====================================================================
+   Footer: dots + prev/next chevrons
+   ===================================================================== */
+.modal__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(120, 170, 255, 0.14);
+}
+
+.modal__chev {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--r-sm);
+    display: grid;
+    place-items: center;
+    color: var(--text-2);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    font-size: 14px;
+    transition: background var(--t-fast) var(--ease-out),
+                color var(--t-fast) var(--ease-out),
+                border-color var(--t-fast) var(--ease-out);
+}
+.modal__chev:hover,
+.modal__chev:focus-visible {
+    background: rgba(6, 182, 212, 0.12);
+    color: #67E8F9;
+    border-color: rgba(6, 182, 212, 0.35);
+}
+
+.modal__dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.modal__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(120, 170, 255, 0.30);
+    transition: background var(--t-fast) var(--ease-out),
+                transform var(--t-fast) var(--ease-out);
+}
+.modal__dot.is-active {
+    background: var(--grad-cyan);
+    transform: scale(1.4);
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.55);
+}
+
+/* =====================================================================
+   Body lock
+   ---------------------------------------------------------------------
+   Prevents the page from scrolling behind the modal. Toggled by JS via
+   the body.modal-open class. We DO NOT use overflow:hidden on the html
+   element to avoid layout shift in browsers that adjust scrollbars.
+   ===================================================================== */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* =====================================================================
+   Responsive
+   ===================================================================== */
+@media (max-width: 480px) {
+    .modal {
+        width: 92%;
+        padding: 22px 20px 18px;
+        border-radius: var(--r-lg);
+    }
+    .modal__illustration {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 14px;
+    }
+    .modal__title  { font-size: 19px; }
+    .modal__body   { font-size: 13.5px; }
+    .modal__chev   { width: 32px; height: 32px; }
+}
+
+/* =====================================================================
+   Reduced motion
+   ---------------------------------------------------------------------
+   The global rule in responsive.css already collapses most animations
+   to 0.01ms. We additionally null out the modal's own transform so
+   the dialog doesn't visually scale-snap into place.
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    .modal-overlay { transition: none; }
+    .modal,
+    .modal-overlay.is-open .modal {
+        transform: none !important;
+        transition: opacity 0.01ms !important;
+    }
+    .modal__illustration { animation: none !important; }
+    .modal__title        { animation: none !important; }
+}

@@ -22,3 +22,4 @@
 @import url("./toast.css");           /* Toast notifications */
 @import url("./footer.css");          /* Footer */
 @import url("./responsive.css");      /* Mobile / tablet breakpoints */
+@import url("./modal.css");           /* Feature-card glassmorphism modal */
