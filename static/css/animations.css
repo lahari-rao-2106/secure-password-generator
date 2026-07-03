@@ -21,8 +21,8 @@
 }
 
 @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.6); }
-    50%      { box-shadow: 0 0 0 14px rgba(124, 58, 237, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.0); }
+    50%      { box-shadow: 0 0 0 14px rgba(6, 182, 212, 0); }
 }
 
 @keyframes pulseRing {
@@ -33,6 +33,16 @@
 @keyframes cardEnter {
     0%   { opacity: 0; transform: translateY(28px) scale(0.97); }
     100% { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+}
+
+@keyframes borderShift {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
 }
 
 @keyframes fadeUp {

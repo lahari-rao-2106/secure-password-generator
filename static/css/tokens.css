@@ -1,47 +1,63 @@
 /* =====================================================================
    tokens.css  —  Design tokens
    All colors, shadows, easing, and spacing values live here. Touch a
-   token, the whole product updates. Mirrors the brand palette from the
-   project spec.
+   token, the whole product updates.
+
+   New hierarchy (per product brief):
+     Background  → Dark Navy
+     Card        → Blue Glass
+     Accent      → Purple
+     Highlight   → Cyan
+     Success     → Green
+     Error       → Red
+     Warning     → Amber
+
+   No more "purple everything" — the brand purple is reserved for
+   emphasis, the surfaces are blue/glass, and accent highlights (cyan,
+   green) guide the user's eye to actions and successes.
    ===================================================================== */
 
 :root {
     /* ----- Brand palette ----- */
-    --color-primary:   #2563EB;
-    --color-accent:    #7C3AED;
-    --color-secondary: #06B6D4;
-    --color-bg:        #050816;
+    --color-primary:   #2563EB;   /* Blue (main accent for surfaces) */
+    --color-accent:    #7C3AED;   /* Purple (used for emphasis, brand)  */
+    --color-secondary: #06B6D4;   /* Cyan (highlight / focus)          */
+    --color-bg:        #050816;   /* Deep navy background              */
 
     /* ----- Status ----- */
     --color-success: #10B981;
-    --color-warning: #FACC15;
+    --color-warning: #F59E0B;   /* amber, not yellow */
     --color-danger:  #EF4444;
     --color-info:    #38BDF8;
 
-    /* ----- Surfaces (glass + neutrals) ----- */
-    --glass-bg:        rgba(255, 255, 255, 0.08);
-    --glass-bg-strong: rgba(255, 255, 255, 0.12);
-    --glass-border:    rgba(255, 255, 255, 0.15);
-    --glass-border-2:  rgba(255, 255, 255, 0.25);
+    /* ----- Surfaces (blue glass, not purple) ----- */
+    --glass-bg:        rgba(15, 30, 70, 0.45);   /* blue-tinted glass  */
+    --glass-bg-strong: rgba(20, 40, 90, 0.55);
+    --glass-border:    rgba(120, 170, 255, 0.18);
+    --glass-border-2:  rgba(120, 170, 255, 0.30);
 
     /* ----- Text ----- */
-    --text-1: #F8FAFC;
-    --text-2: #CBD5E1;
+    --text-1: #FFFFFF;
+    --text-2: #E2E8F0;
     --text-3: #94A3B8;
     --text-4: #64748B;
 
     /* ----- Gradients ----- */
-    --grad-brand: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #06B6D4 100%);
-    --grad-brand-soft: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
-    --grad-success: linear-gradient(90deg, #10B981, #06B6D4);
-    --grad-danger: linear-gradient(90deg, #EF4444, #FACC15);
+    --grad-brand:       linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #06B6D4 100%);
+    --grad-brand-soft:  linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+    --grad-cyan:        linear-gradient(135deg, #06B6D4 0%, #2563EB 100%);
+    --grad-success:     linear-gradient(90deg, #10B981, #06B6D4);
+    --grad-danger:      linear-gradient(90deg, #EF4444, #F59E0B);
+    --grad-title:       linear-gradient(135deg, #06B6D4 0%, #2563EB 50%, #7C3AED 100%);
 
     /* ----- Glows / shadows ----- */
-    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.35);
-    --shadow-card: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255,255,255,0.05) inset;
-    --glow-brand: 0 0 35px rgba(124, 58, 237, 0.45);
-    --glow-cyan:  0 0 40px rgba(6, 182, 212, 0.35);
-    --glow-green: 0 0 22px rgba(16, 185, 129, 0.55);
+    --shadow-soft:  0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-card:  0 30px 70px rgba(0, 0, 0, 0.55),
+                    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+    --glow-brand:   0 0 35px rgba(124, 58, 237, 0.45);
+    --glow-cyan:    0 0 40px rgba(6, 182, 212, 0.35);
+    --glow-green:   0 0 22px rgba(16, 185, 129, 0.55);
+    --glow-blue:    0 0 40px rgba(37, 99, 235, 0.40);
 
     /* ----- Spacing scale ----- */
     --sp-1: 4px;

@@ -1,0 +1,582 @@
+/* =====================================================================
+   landing.css  —  35 / 65 application composition
+   ------------------------------------------------------------
+   The left 35% is a *rail*, not a marketing hero. It uses compact
+   feature cards and small stats to inform, not to sell. The right
+   65% is the *application card* — the password generator, its
+   history, and bulk generation all live inside a single card.
+   ===================================================================== */
+
+/* The outer shell wraps everything. Padding is tighter so the page
+   fits a laptop screen without scrolling. */
+.shell {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 6px clamp(16px, 3vw, 32px) 8px;
+    flex: 1;
+}
+
+.landing {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    gap: clamp(16px, 2.5vw, 28px);
+    align-items: start;
+}
+
+/* =====================================================================
+   LEFT 35% — INFORMATIONAL RAIL
+   ===================================================================== */
+
+.rail {
+    position: relative;
+    padding: 4px 4px 0;
+    color: var(--text-1);
+    animation: fadeUp 0.7s var(--ease-out) both;
+}
+
+/* Brand row: small logo + wordmark, kept tight. */
+.rail__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.rail__logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    background: var(--grad-brand-soft);
+    box-shadow:
+        0 0 18px rgba(124, 58, 237, 0.45),
+        0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+    animation: floatYSmall 6s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+/* Wordmark: "Secure" white, "Pass" gradient — same DNA as the title
+   but smaller, so it lives next to the logo like an app badge. */
+.rail__name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 1px;
+}
+
+.rail__name-secure {
+    color: #FFFFFF;
+    text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.30),
+        0 0 16px rgba(59, 130, 246, 0.25);
+}
+
+.rail__name-pass {
+    background: var(--grad-title);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradientShift 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.40));
+}
+
+/* Tagline: two lines, elegant, restrained. */
+.rail__tagline {
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--text-2);
+    margin-bottom: 16px;
+    letter-spacing: 0.01em;
+}
+.rail__tagline em {
+    font-style: normal;
+    background: var(--grad-cyan);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: 600;
+}
+
+/* === Feature cards (icon + title + sub) =====================
+   These are the centerpiece of the rail. Each card is a small
+   "spec sheet" line — informative, not promotional. They stack
+   vertically in a single column (not 2-up) so the rail stays narrow
+   and readable. */
+.rail__features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+    padding: 0;
+}
+
+.rail__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--r-md);
+    background: rgba(15, 30, 70, 0.35);
+    border: 1px solid var(--glass-border);
+    transition: transform var(--t-fast) var(--ease-out),
+                border-color var(--t-fast) var(--ease-out),
+                background var(--t-fast) var(--ease-out);
+}
+.rail__feature:hover {
+    transform: translateX(2px);
+    border-color: rgba(6, 182, 212, 0.35);
+    background: rgba(20, 40, 90, 0.55);
+}
+
+.rail__icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    color: #67E8F9;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.rail__feature-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.rail__feature-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-1);
+    letter-spacing: 0.005em;
+    margin-bottom: 1px;
+}
+
+.rail__feature-sub {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.4;
+}
+.rail__feature-sub code {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(124, 58, 237, 0.18);
+    color: #C4B5FD;
+}
+
+/* === Three small stats at the bottom of the rail =========== */
+.rail__stats {
+    display: flex;
+    gap: 0;
+    padding: 10px 0;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.rail__stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 12px;
+    border-right: 1px solid var(--glass-border);
+}
+.rail__stat:last-child { border-right: none; }
+.rail__stat:first-child { padding-left: 0; }
+
+.rail__stat-value {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-1);
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+}
+.rail__stat-value span {
+    font-size: 10px;
+    color: var(--text-3);
+    font-weight: 500;
+    text-transform: lowercase;
+}
+
+.rail__stat-label {
+    font-size: 10px;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+}
+
+/* Decorative shield circles — very subtle, sits behind the text. */
+.rail__shield {
+    position: absolute;
+    right: -30px;
+    top: -20px;
+    width: 200px;
+    height: 200px;
+    pointer-events: none;
+    opacity: 0.14;
+    z-index: -1;
+    animation: floatYSmall 8s ease-in-out infinite;
+}
+
+.rail__shield::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px dashed rgba(6, 182, 212, 0.40);
+    border-radius: 50%;
+    animation: spin 40s linear infinite;
+}
+.rail__shield::after {
+    content: "";
+    position: absolute;
+    inset: 30px;
+    border: 1px dashed rgba(124, 58, 237, 0.30);
+    border-radius: 50%;
+    animation: spin 60s linear infinite reverse;
+}
+
+/* =====================================================================
+   RIGHT 65% — APPLICATION
+   ===================================================================== */
+
+.app {
+    display: flex;
+    flex-direction: column;
+    animation: fadeUp 0.7s var(--ease-out) both;
+    animation-delay: 0.1s;
+    min-width: 0;       /* prevent overflow in narrow grid cells */
+}
+
+/* =====================================================================
+   APP CARD — the single product surface
+   ---------------------------------------------------------------------
+   The card owns the entire generator experience: header, controls,
+   output, strength, tips, history, and bulk. It is blue-tinted glass
+   (not purple) so the cyan/purple brand chrome in the rail stays
+   distinctive, and so the gradient title text inside it can pop.
+   ===================================================================== */
+
+.card {
+    width: 100%;
+    padding: 20px 22px 18px;
+    border-radius: var(--r-xl);
+    /* Blue-tinted glass surface */
+    background: linear-gradient(180deg,
+        rgba(20, 40, 90, 0.55) 0%,
+        rgba(15, 30, 70, 0.45) 100%);
+    backdrop-filter: blur(24px) saturate(170%);
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+    border: 1px solid rgba(120, 170, 255, 0.22);
+
+    color: var(--text-1);
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 0 60px rgba(37, 99, 235, 0.15);
+    position: relative;
+    overflow: hidden;
+
+    animation: cardEnter 0.7s var(--ease-out) both,
+               cardFloat 8s ease-in-out infinite 1s;
+}
+
+/* Animated neon border glow that wraps the card edge. */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+        rgba(6, 182, 212, 0.85),
+        rgba(37, 99, 235, 0.55),
+        rgba(124, 58, 237, 0.85),
+        rgba(6, 182, 212, 0.85)
+    );
+    background-size: 300% 300%;
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.85;
+    animation: borderShift 8s linear infinite;
+}
+
+/* Header row variant — title on the left, optional meta pill on the
+   right. The base .card__header style lives in card.css. */
+.card__header--row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    gap: 12px;
+}
+
+/* =====================================================================
+   HISTORY (inside the card)
+   ===================================================================== */
+
+.history--inner {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(120, 170, 255, 0.14);
+}
+
+.history__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.history__title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.history__count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 18px;
+    padding: 0 6px;
+    margin-left: 4px;
+    border-radius: var(--r-pill);
+    background: rgba(6, 182, 212, 0.14);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+    color: #67E8F9;
+    font-size: 10.5px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.history__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.history__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+    max-height: 200px;
+    transition: max-height var(--t-med) var(--ease-out);
+    padding-right: 2px;
+}
+
+/* When collapsed, show only the first 3 items visually. */
+.history__list[data-collapsed="true"] {
+    max-height: 0;
+}
+.history__list[data-collapsed="true"] .history__item:nth-child(n+4) {
+    display: none;
+}
+
+.history__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--r-md);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-2);
+    transition: background var(--t-fast) var(--ease-out),
+                transform var(--t-fast) var(--ease-out);
+    animation: fadeUp 0.4s var(--ease-out) both;
+}
+.history__item:hover {
+    background: rgba(6, 182, 212, 0.06);
+    border-color: rgba(6, 182, 212, 0.30);
+    transform: translateX(2px);
+}
+
+.history__pwd {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history__btn-copy {
+    width: 26px;
+    height: 26px;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.06);
+    display: grid;
+    place-items: center;
+    color: var(--text-2);
+    flex-shrink: 0;
+    transition: background var(--t-fast) var(--ease-out),
+                color var(--t-fast) var(--ease-out);
+}
+.history__btn-copy:hover {
+    background: rgba(16, 185, 129, 0.25);
+    color: var(--color-success);
+}
+
+.history__empty {
+    text-align: center;
+    color: var(--text-4);
+    font-size: 12.5px;
+    padding: 14px 0;
+    font-style: italic;
+}
+
+/* =====================================================================
+   BULK (inside the card)
+   ===================================================================== */
+
+.bulk--inner {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(120, 170, 255, 0.14);
+}
+
+.bulk__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.bulk__title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bulk__count {
+    display: inline-flex;
+    gap: 6px;
+}
+
+.bulk__chip {
+    padding: 5px 12px;
+    border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: all var(--t-fast) var(--ease-out);
+    min-width: 38px;
+}
+.bulk__chip:hover {
+    background: rgba(6, 182, 212, 0.10);
+    color: #67E8F9;
+    border-color: rgba(6, 182, 212, 0.35);
+}
+.bulk__chip.is-active {
+    background: var(--grad-cyan);
+    color: #050816;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(6, 182, 212, 0.40);
+}
+
+.bulk__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+}
+.bulk__grid[data-cols="2"] { grid-template-columns: 1fr 1fr; }
+.bulk__grid[data-cols="3"] { grid-template-columns: 1fr 1fr 1fr; }
+
+.bulk__card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: #67E8F9;
+    animation: fadeUp 0.4s var(--ease-out) both;
+    transition: transform var(--t-fast) var(--ease-out),
+                border-color var(--t-fast) var(--ease-out);
+}
+.bulk__card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(6, 182, 212, 0.30);
+}
+
+.bulk__pwd {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bulk__copy {
+    width: 26px;
+    height: 26px;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.06);
+    display: grid;
+    place-items: center;
+    color: var(--text-2);
+    flex-shrink: 0;
+    transition: background var(--t-fast) var(--ease-out),
+                color var(--t-fast) var(--ease-out);
+}
+.bulk__copy:hover {
+    background: rgba(16, 185, 129, 0.25);
+    color: var(--color-success);
+}
+
+.bulk__empty {
+    text-align: center;
+    color: var(--text-4);
+    font-size: 12.5px;
+    padding: 12px 0;
+    font-style: italic;
+}

@@ -7,8 +7,8 @@
 .toggles {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--sp-3);
-    margin-top: var(--sp-3);
+    gap: 8px;
+    margin-top: 0;
 }
 
 .toggle {
@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-3);
-    padding: 10px 14px;
+    padding: 8px 12px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--glass-border);
     border-radius: var(--r-md);
@@ -75,14 +75,15 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* ON state. */
+/* ON state — blue/cyan track with a small cyan glow. Purple is reserved
+   for the brand wordmark and the generate button, not for utility. */
 .toggle__input:checked + .toggle__track {
-    background: var(--grad-brand-soft);
-    box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
+    background: var(--grad-cyan);
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.45);
 }
 .toggle__input:checked + .toggle__track + .toggle__thumb {
     transform: translateX(16px);
-    box-shadow: 0 0 12px rgba(124, 58, 237, 0.6);
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
 }
 
 /* Focus ring for keyboard navigation. */

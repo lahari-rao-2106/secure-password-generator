@@ -8,8 +8,8 @@
 @import url("./base.css");            /* Reset + global element defaults */
 @import url("./animations.css");      /* @keyframes library */
 @import url("./background.css");      /* Animated gradient + glow + particles */
-@import url("./typography.css");      /* Heading + body type scale */
 @import url("./card.css");            /* Glass card shell */
+@import url("./landing.css");        /* 40/60 SaaS composition + hero */
 @import url("./slider.css");          /* Range input styling */
 @import url("./toggle.css");          /* Animated toggle switches */
 @import url("./button.css");          /* Generate + copy buttons */

@@ -1,5 +1,9 @@
 /* =====================================================================
    bulk.css  —  Multi-password cards (1 / 5 / 10)
+   The .bulk section itself is inside the app card and lives in
+   landing.css. This file holds the *card-level* styles for each
+   generated password, plus the chip group, so they read identically
+   whether the section is embedded or standalone.
    ===================================================================== */
 
 .bulk {
@@ -50,7 +54,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 12px;
+    padding: 8px 12px;
     border-radius: var(--r-md);
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--glass-border);

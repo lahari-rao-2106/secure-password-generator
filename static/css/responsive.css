@@ -4,32 +4,62 @@
    belong. Keep selectors narrow so we don't fight component CSS.
    ===================================================================== */
 
-/* Tablet down */
+/* Laptop: tighten padding so everything fits on a 1366x768 screen
+   without scrolling. */
+@media (max-height: 820px) {
+    body { padding: 12px var(--sp-4) 8px; }
+    .shell { padding: 4px clamp(16px, 3vw, 28px) 6px; }
+    .card  { padding: 16px 18px 14px; }
+    .card__header { margin-bottom: 10px; }
+    .card__section { margin-top: 10px; }
+    .rail__features { gap: 6px; margin-bottom: 14px; }
+    .rail__feature  { padding: 7px 10px; }
+    .history--inner,
+    .bulk--inner    { margin-top: 12px; padding-top: 10px; }
+    .footer { padding: 8px clamp(16px, 3vw, 32px) 12px; }
+    .btn--generate { margin-top: 10px; }
+    .tips { margin-top: 10px; min-height: 32px; padding: 6px 10px; font-size: 12px; }
+}
+
+/* Tablet down: collapse the 35/65 grid to a single column. */
+@media (max-width: 960px) {
+    .landing {
+        grid-template-columns: 1fr;
+    }
+
+    .rail__shield { display: none; }
+    .rail__features { gap: 8px; }
+    .rail__stat { padding: 0 14px; }
+}
+
+/* Tablet portrait */
 @media (max-width: 768px) {
     body { padding: var(--sp-5) var(--sp-3); }
 
-    .card {
-        padding: var(--sp-6) var(--sp-5);
-        max-width: 100%;
-    }
+    .shell { padding: var(--sp-4) var(--sp-3); }
+
+    .card { padding: 20px 18px 18px; max-width: 100%; }
 
     .toggles { grid-template-columns: 1fr; }
 
     .bulk__grid[data-cols="3"] { grid-template-columns: 1fr 1fr; }
+
+    .card__header--row { flex-direction: column; align-items: flex-start; gap: 6px; }
 }
 
 /* Mobile */
 @media (max-width: 480px) {
-    .brand-title { font-size: 26px; }
-    .subtitle    { font-size: 13px; }
+    .rail__logo     { width: 36px; height: 36px; font-size: 18px; }
+    .rail__name     { font-size: 17px; }
+    .rail__tagline  { font-size: 12.5px; }
 
-    .card { padding: var(--sp-5) var(--sp-4); border-radius: var(--r-lg); }
+    .card { padding: 18px 16px 14px; border-radius: var(--r-lg); }
 
     .output { flex-wrap: wrap; }
-    .output__field { font-size: 14px; padding: 12px 14px; }
+    .output__field { font-size: 15px; padding: 12px 14px; }
 
-    .bulk__grid { grid-template-columns: 1fr; }
-    .bulk__grid[data-cols="2"] { grid-template-columns: 1fr; }
+    .bulk__grid,
+    .bulk__grid[data-cols="2"],
     .bulk__grid[data-cols="3"] { grid-template-columns: 1fr; }
 
     .entropy { flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
@@ -37,6 +67,14 @@
 
     .toast-stack { top: 12px; right: 12px; left: 12px; }
     .toast { min-width: 0; max-width: 100%; }
+
+    .footer { flex-direction: column; text-align: center; }
+    .footer__socials { justify-content: center; }
+    .footer__credit  { text-align: center; }
+
+    .history__header { flex-direction: column; align-items: flex-start; }
+    .history__actions { width: 100%; justify-content: flex-end; }
+    .bulk__header    { flex-direction: column; align-items: flex-start; }
 }
 
 /* Reduced-motion: respect user preference. */

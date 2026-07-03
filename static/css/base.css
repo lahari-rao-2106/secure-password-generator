@@ -29,7 +29,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: var(--sp-7) var(--sp-4);
+    padding: 16px var(--sp-4) 12px;
 }
 
 a {
@@ -66,4 +66,46 @@ input, button, select, textarea {
     outline: 2px solid var(--color-secondary);
     outline-offset: 3px;
     border-radius: var(--r-sm);
+}
+
+/* =====================================================================
+   Informational vs interactive
+   ---------------------------------------------------------------------
+   The rail (left panel) and the inner rows of the app card explain the
+   product — they are not buttons, not links, not editable. The browser
+   would otherwise show the I-beam text cursor over selectable text and
+   the pointer over the rail__feature cards (which have a hover effect
+   that makes them feel clickable). Force the normal arrow everywhere
+   inside the informational regions; keep cursor: pointer on the actual
+   interactive elements (buttons, toggles, slider, social links) via
+   their own component styles. Text remains selectable — only the
+   cursor changes.
+   ===================================================================== */
+.rail,
+.rail *,
+.history--inner,
+.history--inner *,
+.bulk--inner,
+.bulk--inner *,
+.entropy,
+.entropy *,
+.strength,
+.strength *,
+.tips,
+.tips *,
+.history__item .history__pwd,
+.bulk__card .bulk__pwd {
+    cursor: default;
+}
+
+/* The real interactive surfaces get their pointer back. */
+.btn,
+.toggle,
+input[type="range"],
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb,
+.bulk__chip,
+.social,
+a {
+    cursor: pointer;
 }

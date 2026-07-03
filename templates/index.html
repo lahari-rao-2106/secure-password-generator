@@ -9,216 +9,318 @@
 
     <title>SecurePass Pro — Military-grade password generator</title>
 
-    <!-- Google Fonts: Outfit (sans) + JetBrains Mono (code) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Single CSS entry point — every component module is imported from here. -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
-    <!-- Favicon (inline SVG, no extra request) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='28'%3E🔐%3C/text%3E%3C/svg%3E">
 </head>
 
 <body>
 
-    <!-- ============================================================
-         Background layers
-         - .bg-gradient: slow color shift
-         - .bg-glow: blurred floating blobs
-         - .bg-particles: small particles + lock icons (filled by JS)
-         All pointer-events: none so they never block UI interaction.
-         ============================================================ -->
+    <!-- ============== Background layers ============== -->
     <div class="bg-layer bg-gradient" aria-hidden="true"></div>
     <div class="bg-layer bg-glow bg-glow--a" aria-hidden="true"></div>
     <div class="bg-layer bg-glow bg-glow--b" aria-hidden="true"></div>
     <div class="bg-layer bg-glow bg-glow--c" aria-hidden="true"></div>
+    <div class="bg-layer bg-glow bg-glow--d" aria-hidden="true"></div>
     <div class="bg-layer bg-particles" id="bg-particles" aria-hidden="true"></div>
 
-    <!-- ============================================================
-         Toast stack (filled dynamically by toast.js)
-         ============================================================ -->
+    <!-- ============== Toast stack ============== -->
     <div class="toast-stack" role="status" aria-live="polite"></div>
 
     <!-- ============================================================
-         Main shell
+         Layout
+         ------------------------------------------------------------
+         The page is a single application. The left panel is an
+         informational side-rail (not an ad). The right panel is
+         the generator application itself, which contains the
+         recent-password history internally.
          ============================================================ -->
     <div class="shell">
 
-        <main class="card" role="main">
+        <div class="landing">
 
-            <header class="card__header">
-                <h1 class="brand-title">
-                    <span class="brand-title__icon" aria-hidden="true">🔐</span>
-                    SecurePass <span style="font-weight:400; opacity:0.85">Pro</span>
-                </h1>
-                <p class="subtitle">Generate military-grade passwords instantly</p>
-            </header>
+            <!-- =================== LEFT 35% =================== -->
+            <aside class="rail" aria-label="About SecurePass Pro">
 
-            <!-- ============== Password length slider ============== -->
-            <section class="card__section" aria-labelledby="lengthLabel">
-                <div class="slider-group">
-                    <div class="slider-group__row">
-                        <span class="slider-group__label" id="lengthLabel">Password Length</span>
-                        <span class="slider-group__value" id="lengthValue">12</span>
-                    </div>
-                    <input type="range"
-                           id="length"
-                           min="4"
-                           max="32"
-                           value="12"
-                           aria-label="Password length, between 4 and 32 characters">
-                </div>
-            </section>
-
-            <!-- ============== Character type toggles ============== -->
-            <section class="card__section" aria-label="Character types">
-                <div class="toggles">
-
-                    <label class="toggle" for="uppercase">
-                        <span class="toggle__label">Uppercase (A-Z)</span>
-                        <span class="toggle__switch">
-                            <input class="toggle__input" type="checkbox" id="uppercase" checked>
-                            <span class="toggle__track"></span>
-                            <span class="toggle__thumb"></span>
-                        </span>
-                    </label>
-
-                    <label class="toggle" for="lowercase">
-                        <span class="toggle__label">Lowercase (a-z)</span>
-                        <span class="toggle__switch">
-                            <input class="toggle__input" type="checkbox" id="lowercase" checked>
-                            <span class="toggle__track"></span>
-                            <span class="toggle__thumb"></span>
-                        </span>
-                    </label>
-
-                    <label class="toggle" for="numbers">
-                        <span class="toggle__label">Numbers (0-9)</span>
-                        <span class="toggle__switch">
-                            <input class="toggle__input" type="checkbox" id="numbers" checked>
-                            <span class="toggle__track"></span>
-                            <span class="toggle__thumb"></span>
-                        </span>
-                    </label>
-
-                    <label class="toggle" for="symbols">
-                        <span class="toggle__label">Special Characters</span>
-                        <span class="toggle__switch">
-                            <input class="toggle__input" type="checkbox" id="symbols" checked>
-                            <span class="toggle__track"></span>
-                            <span class="toggle__thumb"></span>
-                        </span>
-                    </label>
-
-                </div>
-            </section>
-
-            <!-- ============== Generate button ============== -->
-            <button id="generateBtn" class="btn btn--generate" aria-label="Generate password">
-                <span aria-hidden="true">⚡</span>
-                <span>Generate Password</span>
-            </button>
-
-            <!-- ============== Output row ============== -->
-            <section class="card__section" aria-label="Generated password">
-                <div class="output">
-                    <input
-                        type="text"
-                        id="password"
-                        class="output__field output__field--empty"
-                        readonly
-                        placeholder="Your password will appear here…"
-                        aria-label="Generated password">
-
-                    <button id="toggleView"
-                            class="btn btn--icon"
-                            type="button"
-                            aria-label="Show password"
-                            aria-pressed="false"
-                            title="Show/hide password">
-                        <span aria-hidden="true">👁</span>
-                    </button>
-
-                    <button id="copyBtn" class="btn btn--copy" type="button" aria-label="Copy password">
-                        <span aria-hidden="true">📋</span>
-                        <span>Copy</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- ============== Strength meter ============== -->
-            <section class="card__section" aria-label="Password strength">
-                <div class="strength">
-                    <div class="strength__header">
-                        <span>Password Strength</span>
-                        <span class="strength__label" id="strengthLabel" data-level="Weak">—</span>
-                    </div>
-                    <div class="strength__bar">
-                        <div class="strength__fill" id="strengthFill" data-level="Weak"></div>
+                <!-- Branding: small, elegant, premium -->
+                <div class="rail__brand">
+                    <div class="rail__logo" aria-hidden="true">🔐</div>
+                    <div class="rail__name">
+                        <span class="rail__name-secure">Secure</span><span class="rail__name-pass">Pass</span>
                     </div>
                 </div>
-            </section>
 
-            <!-- ============== Entropy readout ============== -->
-            <section class="card__section" aria-label="Password entropy">
-                <div class="entropy">
-                    <div class="entropy__readout">
-                        <span class="entropy__value" id="entropyValue">0</span>
-                        <span class="entropy__unit">Bits</span>
-                    </div>
-                    <div class="entropy__quality">
-                        <div class="entropy__quality-label">Quality</div>
-                        <div class="entropy__quality-value" id="entropyQuality" data-level="Low">—</div>
-                    </div>
-                </div>
-            </section>
+                <div class="rail__tagline">Password Security.<br><em>Reimagined.</em></div>
 
-            <!-- ============== Rotating security tips ============== -->
-            <section class="tips" aria-live="polite">
-                <span class="tips__icon" aria-hidden="true">💡</span>
-                <div class="tips__text" id="tipsText"></div>
-            </section>
-
-            <!-- ============== Bulk generation ============== -->
-            <section class="card__section bulk" aria-label="Generate multiple passwords">
-                <h2 class="section-title">Generate Multiple</h2>
-
-                <div class="bulk__count" role="tablist">
-                    <button class="bulk__chip is-active" data-count="1"  role="tab" aria-selected="true">1</button>
-                    <button class="bulk__chip"           data-count="5"  role="tab" aria-selected="false">5</button>
-                    <button class="bulk__chip"           data-count="10" role="tab" aria-selected="false">10</button>
-                </div>
-
-                <div class="bulk__grid" id="bulkGrid" data-cols="1">
-                    <div class="bulk__empty">Choose a count above and click Generate Password.</div>
-                </div>
-            </section>
-
-            <!-- ============== History ============== -->
-            <section class="card__section history" aria-label="Password history">
-                <div class="history__header">
-                    <h2 class="section-title" style="margin:0">Recent Passwords</h2>
-                    <button id="downloadBtn" class="btn btn--ghost" type="button" aria-label="Download password history">
-                        <span aria-hidden="true">⬇</span>
-                        <span>Download</span>
-                    </button>
-                </div>
-
-                <ul class="history__list" id="historyList">
-                    <li class="history__empty">No history yet — generate your first password.</li>
+                <!-- Compact feature cards — informational, not advertising -->
+                <ul class="rail__features">
+                    <li class="rail__feature">
+                        <span class="rail__icon" aria-hidden="true">🛡</span>
+                        <div class="rail__feature-text">
+                            <div class="rail__feature-title">Secure RNG</div>
+                            <div class="rail__feature-sub">Uses Python's <code>secrets</code> module.</div>
+                        </div>
+                    </li>
+                    <li class="rail__feature">
+                        <span class="rail__icon" aria-hidden="true">⚡</span>
+                        <div class="rail__feature-text">
+                            <div class="rail__feature-title">High Entropy</div>
+                            <div class="rail__feature-sub">Cryptographically secure randomness.</div>
+                        </div>
+                    </li>
+                    <li class="rail__feature">
+                        <span class="rail__icon" aria-hidden="true">📋</span>
+                        <div class="rail__feature-text">
+                            <div class="rail__feature-title">One-click Copy</div>
+                            <div class="rail__feature-sub">Instant clipboard support.</div>
+                        </div>
+                    </li>
+                    <li class="rail__feature">
+                        <span class="rail__icon" aria-hidden="true">🔒</span>
+                        <div class="rail__feature-text">
+                            <div class="rail__feature-title">Zero Storage</div>
+                            <div class="rail__feature-sub">Passwords never leave your browser.</div>
+                        </div>
+                    </li>
+                    <li class="rail__feature">
+                        <span class="rail__icon" aria-hidden="true">📈</span>
+                        <div class="rail__feature-text">
+                            <div class="rail__feature-title">Multi Generation</div>
+                            <div class="rail__feature-sub">Generate 1, 5 or 10 passwords at once.</div>
+                        </div>
+                    </li>
                 </ul>
-            </section>
 
-        </main>
+                <!-- Compact security stats -->
+                <div class="rail__stats">
+                    <div class="rail__stat">
+                        <div class="rail__stat-value">256<span>bit</span></div>
+                        <div class="rail__stat-label">Max entropy</div>
+                    </div>
+                    <div class="rail__stat">
+                        <div class="rail__stat-value">0</div>
+                        <div class="rail__stat-label">Data stored</div>
+                    </div>
+                    <div class="rail__stat">
+                        <div class="rail__stat-value">≤10<span>ms</span></div>
+                        <div class="rail__stat-label">Generate time</div>
+                    </div>
+                </div>
+
+                <!-- Decorative shield, very subtle, behind the text -->
+                <div class="rail__shield" aria-hidden="true"></div>
+            </aside>
+
+            <!-- =================== RIGHT 65% =================== -->
+            <main class="app" aria-label="Password generator application">
+
+                <!-- One single card holds: generator + output + analysis + history -->
+                <div class="card card--app">
+
+                    <header class="card__header card__header--row">
+                        <div class="card__header-text">
+                            <h2 class="card__title">
+                                <span class="card__title-icon" aria-hidden="true">⚡</span>
+                                Password Generator
+                            </h2>
+                            <p class="card__subtitle">Tune the options, generate, copy.</p>
+                        </div>
+                        <div class="card__header-meta">
+                            <span class="card__pill">v1.0</span>
+                        </div>
+                    </header>
+
+                    <!-- ============== Password length slider ============== -->
+                    <section class="card__section" aria-labelledby="lengthLabel">
+                        <div class="slider-group">
+                            <div class="slider-group__row">
+                                <span class="slider-group__label" id="lengthLabel">Password Length</span>
+                                <span class="slider-group__value" id="lengthValue">12</span>
+                            </div>
+                            <input type="range"
+                                   id="length"
+                                   min="4"
+                                   max="32"
+                                   value="12"
+                                   aria-label="Password length, between 4 and 32 characters">
+                        </div>
+                    </section>
+
+                    <!-- ============== Character type toggles ============== -->
+                    <section class="card__section" aria-label="Character types">
+                        <div class="toggles">
+
+                            <label class="toggle" for="uppercase">
+                                <span class="toggle__label">Uppercase (A-Z)</span>
+                                <span class="toggle__switch">
+                                    <input class="toggle__input" type="checkbox" id="uppercase" checked>
+                                    <span class="toggle__track"></span>
+                                    <span class="toggle__thumb"></span>
+                                </span>
+                            </label>
+
+                            <label class="toggle" for="lowercase">
+                                <span class="toggle__label">Lowercase (a-z)</span>
+                                <span class="toggle__switch">
+                                    <input class="toggle__input" type="checkbox" id="lowercase" checked>
+                                    <span class="toggle__track"></span>
+                                    <span class="toggle__thumb"></span>
+                                </span>
+                            </label>
+
+                            <label class="toggle" for="numbers">
+                                <span class="toggle__label">Numbers (0-9)</span>
+                                <span class="toggle__switch">
+                                    <input class="toggle__input" type="checkbox" id="numbers" checked>
+                                    <span class="toggle__track"></span>
+                                    <span class="toggle__thumb"></span>
+                                </span>
+                            </label>
+
+                            <label class="toggle" for="symbols">
+                                <span class="toggle__label">Special Characters</span>
+                                <span class="toggle__switch">
+                                    <input class="toggle__input" type="checkbox" id="symbols" checked>
+                                    <span class="toggle__track"></span>
+                                    <span class="toggle__thumb"></span>
+                                </span>
+                            </label>
+
+                        </div>
+                    </section>
+
+                    <!-- ============== Generate button ============== -->
+                    <button id="generateBtn" class="btn btn--generate" aria-label="Generate password">
+                        <span aria-hidden="true">⚡</span>
+                        <span>Generate Password</span>
+                    </button>
+
+                    <!-- ============== Output row ============== -->
+                    <section class="card__section" aria-label="Generated password">
+                        <div class="output">
+                            <input
+                                type="text"
+                                id="password"
+                                class="output__field output__field--empty"
+                                readonly
+                                placeholder="Your password will appear here…"
+                                aria-label="Generated password">
+
+                            <button id="toggleView"
+                                    class="btn btn--icon"
+                                    type="button"
+                                    aria-label="Show password"
+                                    aria-pressed="false"
+                                    title="Show/hide password">
+                                <span aria-hidden="true">👁</span>
+                            </button>
+
+                            <button id="copyBtn" class="btn btn--copy" type="button" aria-label="Copy password">
+                                <span aria-hidden="true">📋</span>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- ============== Strength + Entropy row (compact) ============== -->
+                    <section class="card__section" aria-label="Password analysis">
+                        <div class="strength">
+                            <div class="strength__header">
+                                <span>Password Strength</span>
+                                <span class="strength__label" id="strengthLabel" data-level="Weak">—</span>
+                            </div>
+                            <div class="strength__bar">
+                                <div class="strength__fill" id="strengthFill" data-level="Weak"></div>
+                            </div>
+                        </div>
+
+                        <div class="entropy">
+                            <div class="entropy__readout">
+                                <span class="entropy__value" id="entropyValue">0</span>
+                                <span class="entropy__unit">Bits</span>
+                            </div>
+                            <div class="entropy__quality">
+                                <div class="entropy__quality-label">Quality</div>
+                                <div class="entropy__quality-value" id="entropyQuality" data-level="Low">—</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============== Rotating security tips ============== -->
+                    <section class="tips" aria-live="polite">
+                        <span class="tips__icon" aria-hidden="true">💡</span>
+                        <div class="tips__text" id="tipsText"></div>
+                    </section>
+
+                    <!-- ============== Recent Passwords — INSIDE the app card ============== -->
+                    <section class="history history--inner" aria-label="Recent password history">
+                        <div class="history__header">
+                            <h3 class="history__title">
+                                <span aria-hidden="true">🕘</span>
+                                Recent Passwords
+                                <span class="history__count" id="historyCount">0</span>
+                            </h3>
+                            <div class="history__actions">
+                                <button id="expandHistoryBtn"
+                                        class="btn btn--ghost"
+                                        type="button"
+                                        aria-expanded="false"
+                                        aria-controls="historyList"
+                                        aria-label="View all recent passwords">
+                                <span aria-hidden="true" data-icon>▾</span>
+                                <span data-label>View more</span>
+                            </button>
+                                <button id="downloadBtn"
+                                        class="btn btn--ghost"
+                                        type="button"
+                                        aria-label="Download password history">
+                                    <span aria-hidden="true">⬇</span>
+                                    <span>Download</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <ul class="history__list" id="historyList" data-collapsed="true">
+                            <li class="history__empty">No history yet — generate your first password.</li>
+                        </ul>
+                    </section>
+
+                    <!-- ============== Generate Multiple (inside the app card) ============== -->
+                    <section class="bulk bulk--inner" aria-label="Generate multiple passwords">
+                        <div class="bulk__header">
+                            <h3 class="bulk__title">
+                                <span aria-hidden="true">📦</span>
+                                Generate Multiple
+                            </h3>
+                            <div class="bulk__count" role="tablist">
+                                <button class="bulk__chip is-active" data-count="1"  role="tab" aria-selected="true">1</button>
+                                <button class="bulk__chip"           data-count="5"  role="tab" aria-selected="false">5</button>
+                                <button class="bulk__chip"           data-count="10" role="tab" aria-selected="false">10</button>
+                            </div>
+                        </div>
+
+                        <div class="bulk__grid" id="bulkGrid" data-cols="1">
+                            <div class="bulk__empty">Choose a count above and click Generate Password.</div>
+                        </div>
+                    </section>
+
+                </div>
+
+            </main>
+
+        </div>
     </div>
 
     <!-- ============== Footer ============== -->
     <footer class="footer" role="contentinfo">
-        <div>
-            Made with <span class="footer__heart" aria-label="love">❤️</span> using
+        <div class="footer__credit">
+            <em>Engineered by Lahari.</em> Passwords generated. Bugs intimidated.
         </div>
+
         <div class="footer__techs">
             <span class="footer__chip">Python</span>
             <span class="footer__chip">Flask</span>
@@ -226,10 +328,43 @@
             <span class="footer__chip">CSS</span>
             <span class="footer__chip">JavaScript</span>
         </div>
-        <div class="footer__copy">© SecurePass Pro — all generated passwords stay in your browser.</div>
+
+        <div class="footer__socials" aria-label="Social links">
+            <a class="social"
+               href="https://github.com/lahari-rao-2106"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="GitHub"
+               title="GitHub">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.08c-3.2.7-3.88-1.37-3.88-1.37-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.12 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.07.78 2.16v3.21c0 .31.21.67.8.55C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/>
+                </svg>
+            </a>
+            <a class="social"
+               href="https://www.linkedin.com/in/lahari-rao-0419b9325/"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="LinkedIn"
+               title="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>
+                </svg>
+            </a>
+            <a class="social"
+               href="#"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="Portfolio"
+               title="Portfolio">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+            </a>
+        </div>
     </footer>
 
-    <!-- Single JS entry point. Uses native ES modules (no bundler needed). -->
     <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>

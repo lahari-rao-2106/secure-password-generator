@@ -1,65 +1,78 @@
 /* =====================================================================
-   card.css  —  Main glassmorphic card shell
+   card.css  —  Shared card sub-components
+   The .card shell itself is defined in landing.css (it carries the
+   glass surface, animated border, and floating animation). This file
+   owns the *shared interior subcomponents* every card uses:
+
+   - .card__header        — title row + meta slot
+   - .card__section       — generic section group with consistent spacing
+   - .card__title         — heading style inside a card
+
+   Keeping this file small and free of .card surface styles means the
+   shell, the interior, and the brand chrome can all evolve separately.
    ===================================================================== */
 
-.shell {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: var(--sp-4);
-    flex: 1;
-}
-
-.card {
-    width: 100%;
-    max-width: 520px;
-    padding: var(--sp-7) var(--sp-6) var(--sp-6);
-    border-radius: var(--r-xl);
-    background: var(--glass-bg);
-    backdrop-filter: blur(22px) saturate(160%);
-    -webkit-backdrop-filter: blur(22px) saturate(160%);
-    border: 1px solid var(--glass-border);
-
-    color: var(--text-1);
-    box-shadow: var(--shadow-card);
-    position: relative;
-    overflow: hidden;
-
-    /* Entrance animation */
-    animation: cardEnter 0.7s var(--ease-out) both;
-}
-
-/* Neon border glow that wraps the card edge. */
-.card::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg,
-        rgba(37, 99, 235, 0.6),
-        rgba(124, 58, 237, 0.4),
-        rgba(6, 182, 212, 0.6)
-    );
-    -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    pointer-events: none;
-    opacity: 0.7;
-    animation: pulseRing 5s ease-in-out infinite;
-}
-
-/* Card header: brand + subtitle. */
+/* Card header — used by every card. layout.css / landing.css handles
+   the variant where the header is a row (title-left / meta-right). */
 .card__header {
-    text-align: center;
-    margin-bottom: var(--sp-6);
+    margin-bottom: 14px;
 }
 
-/* Sub-section groups (slider, toggles, output, strength, etc.). */
+.card__header-text { min-width: 0; }
+.card__header-meta { flex-shrink: 0; }
+
+/* Title typography inside a card. The icon, if any, is wrapped in
+   .card__title-icon so it can pulse independently. */
+.card__title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: var(--text-1);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card__title-icon {
+    font-size: 16px;
+    animation: iconBounce 3s ease-in-out infinite;
+    display: inline-block;
+}
+
+.card__subtitle {
+    margin-top: 2px;
+    color: var(--text-3);
+    font-size: 12.5px;
+}
+
+/* Pill chip used in card headers (e.g. "v1.0"). */
+.card__pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #67E8F9;
+    background: rgba(6, 182, 212, 0.10);
+    border: 1px solid rgba(6, 182, 212, 0.30);
+    border-radius: var(--r-pill);
+    font-family: var(--font-mono);
+}
+
+/* ----- Section grouping -----
+   Every card body is a vertical stack of sections. We give every
+   section consistent top spacing and add a hairline divider between
+   siblings so the eye can scan the card like a spec sheet. */
 .card__section {
-    margin-top: var(--sp-5);
+    margin-top: 12px;
+    position: relative;
 }
 .card__section:first-of-type { margin-top: 0; }
+
+.card__section + .card__section {
+    border-top: 1px solid rgba(120, 170, 255, 0.10);
+    padding-top: 12px;
+}

@@ -13,11 +13,12 @@ import { renderStrength }       from "./strength.js";
 import { renderEntropy }        from "./entropy.js";
 import { renderBulkPasswords }  from "./bulk.js";
 import { renderPassword }       from "./output.js";
-import { refreshHistory }       from "./history.js";
+import { refreshHistory, initHistory } from "./history.js";
 import { copyText }             from "./copy.js";
 import { showToast }            from "./toast.js";
 import { initTips }             from "./tips.js";
 import { bindGenerate }         from "./generate.js";
+import { initFooter }           from "./footer.js";
 
 // ---------- Element handles ----------
 const els = {
@@ -55,7 +56,9 @@ function init() {
     initSlider(els.length, els.lengthValue);
     initToggles();
     initBulkSelector();
+    initHistory();
     initTips();
+    initFooter();
     refreshHistory();
 
     // Show/hide password eye

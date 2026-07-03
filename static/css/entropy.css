@@ -4,12 +4,14 @@
    ===================================================================== */
 
 .entropy {
-    margin-top: var(--sp-5);
-    padding: var(--sp-4);
+    margin-top: 10px;
+    padding: 10px 14px;
     border-radius: var(--r-md);
+    /* Subtle blue glass — keeps the entropy readout cohesive with the
+       card surface, not a contrasting gradient. */
     background: linear-gradient(135deg,
-        rgba(37, 99, 235, 0.15),
-        rgba(124, 58, 237, 0.15));
+        rgba(6, 182, 212, 0.10),
+        rgba(37, 99, 235, 0.10));
     border: 1px solid var(--glass-border);
     display: flex;
     align-items: center;
@@ -25,7 +27,7 @@
 
 .entropy__value {
     font-family: var(--font-mono);
-    font-size: 30px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--color-secondary);
     line-height: 1;
