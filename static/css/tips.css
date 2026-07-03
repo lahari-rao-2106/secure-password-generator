@@ -1,0 +1,36 @@
+/* =====================================================================
+   tips.css  —  Rotating security tips carousel
+   ===================================================================== */
+
+.tips {
+    margin-top: var(--sp-5);
+    padding: var(--sp-3) var(--sp-4);
+    border-radius: var(--r-md);
+    background: rgba(6, 182, 212, 0.08);
+    border-left: 3px solid var(--color-secondary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    color: var(--text-2);
+    font-size: 13px;
+}
+
+.tips__icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    animation: iconBounce 2.5s ease-in-out infinite;
+}
+
+.tips__text {
+    flex: 1;
+    position: relative;
+    height: 18px;
+    overflow: hidden;
+}
+
+.tips__text span {
+    position: absolute;
+    inset: 0;
+    animation: tipFade 5s ease-in-out infinite;
+}

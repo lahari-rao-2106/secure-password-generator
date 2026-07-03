@@ -1,0 +1,74 @@
+/* =====================================================================
+   tokens.css  —  Design tokens
+   All colors, shadows, easing, and spacing values live here. Touch a
+   token, the whole product updates. Mirrors the brand palette from the
+   project spec.
+   ===================================================================== */
+
+:root {
+    /* ----- Brand palette ----- */
+    --color-primary:   #2563EB;
+    --color-accent:    #7C3AED;
+    --color-secondary: #06B6D4;
+    --color-bg:        #050816;
+
+    /* ----- Status ----- */
+    --color-success: #10B981;
+    --color-warning: #FACC15;
+    --color-danger:  #EF4444;
+    --color-info:    #38BDF8;
+
+    /* ----- Surfaces (glass + neutrals) ----- */
+    --glass-bg:        rgba(255, 255, 255, 0.08);
+    --glass-bg-strong: rgba(255, 255, 255, 0.12);
+    --glass-border:    rgba(255, 255, 255, 0.15);
+    --glass-border-2:  rgba(255, 255, 255, 0.25);
+
+    /* ----- Text ----- */
+    --text-1: #F8FAFC;
+    --text-2: #CBD5E1;
+    --text-3: #94A3B8;
+    --text-4: #64748B;
+
+    /* ----- Gradients ----- */
+    --grad-brand: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #06B6D4 100%);
+    --grad-brand-soft: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+    --grad-success: linear-gradient(90deg, #10B981, #06B6D4);
+    --grad-danger: linear-gradient(90deg, #EF4444, #FACC15);
+
+    /* ----- Glows / shadows ----- */
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-card: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255,255,255,0.05) inset;
+    --glow-brand: 0 0 35px rgba(124, 58, 237, 0.45);
+    --glow-cyan:  0 0 40px rgba(6, 182, 212, 0.35);
+    --glow-green: 0 0 22px rgba(16, 185, 129, 0.55);
+
+    /* ----- Spacing scale ----- */
+    --sp-1: 4px;
+    --sp-2: 8px;
+    --sp-3: 12px;
+    --sp-4: 16px;
+    --sp-5: 20px;
+    --sp-6: 24px;
+    --sp-7: 32px;
+    --sp-8: 40px;
+    --sp-9: 56px;
+
+    /* ----- Radii ----- */
+    --r-sm: 8px;
+    --r-md: 14px;
+    --r-lg: 20px;
+    --r-xl: 28px;
+    --r-pill: 999px;
+
+    /* ----- Type ----- */
+    --font-sans: 'Outfit', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+    /* ----- Easing & motion ----- */
+    --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+    --t-fast: 180ms;
+    --t-med:  320ms;
+    --t-slow: 600ms;
+}

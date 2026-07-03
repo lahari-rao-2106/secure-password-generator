@@ -1,0 +1,89 @@
+/* =====================================================================
+   history.css  —  Last-5 generated passwords + download button
+   ===================================================================== */
+
+.history {
+    margin-top: var(--sp-6);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--glass-border);
+}
+
+.history__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--sp-3);
+}
+
+.history__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.history__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--r-md);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-2);
+    transition: background var(--t-fast) var(--ease-out),
+                transform var(--t-fast) var(--ease-out);
+    animation: fadeUp 0.4s var(--ease-out) both;
+}
+
+.history__item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(2px);
+}
+
+.history__pwd {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history__time {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--text-4);
+    flex-shrink: 0;
+}
+
+.history__empty {
+    text-align: center;
+    color: var(--text-4);
+    font-size: 13px;
+    padding: 18px 0;
+    font-style: italic;
+}
+
+.history__btn-copy {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.06);
+    display: grid;
+    place-items: center;
+    color: var(--text-2);
+    transition: background var(--t-fast) var(--ease-out),
+                color var(--t-fast) var(--ease-out),
+                transform var(--t-fast) var(--ease-out);
+    flex-shrink: 0;
+}
+.history__btn-copy:hover {
+    background: rgba(16, 185, 129, 0.25);
+    color: var(--color-success);
+    transform: scale(1.1);
+}

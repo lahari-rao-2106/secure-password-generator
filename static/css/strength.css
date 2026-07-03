@@ -1,0 +1,48 @@
+/* =====================================================================
+   strength.css  —  Strength label + animated progress bar
+   The .strength__bar is animated by setting --strength-width inline from JS.
+   ===================================================================== */
+
+.strength {
+    margin-top: var(--sp-4);
+}
+
+.strength__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-3);
+    margin-bottom: 6px;
+}
+
+.strength__label {
+    font-weight: 600;
+    color: var(--text-2);
+}
+.strength__label[data-level="Weak"]   { color: var(--color-danger);  }
+.strength__label[data-level="Medium"] { color: var(--color-warning); }
+.strength__label[data-level="Strong"] { color: var(--color-success); }
+
+.strength__bar {
+    position: relative;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--r-pill);
+    overflow: hidden;
+}
+
+.strength__fill {
+    position: absolute;
+    inset: 0;
+    width: 0%;
+    border-radius: inherit;
+    background: var(--grad-danger);
+    transition: width var(--t-slow) var(--ease-out),
+                background var(--t-slow) var(--ease-out);
+    box-shadow: 0 0 12px currentColor;
+}
+
+.strength__fill[data-level="Weak"]   { background: var(--grad-danger);  }
+.strength__fill[data-level="Medium"] { background: var(--color-warning); }
+.strength__fill[data-level="Strong"] { background: var(--grad-success); }

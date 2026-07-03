@@ -1,0 +1,61 @@
+/* =====================================================================
+   entropy.css  —  Big number readout + qualitative label
+   The number is animated from 0 → target when .is-animated is set.
+   ===================================================================== */
+
+.entropy {
+    margin-top: var(--sp-5);
+    padding: var(--sp-4);
+    border-radius: var(--r-md);
+    background: linear-gradient(135deg,
+        rgba(37, 99, 235, 0.15),
+        rgba(124, 58, 237, 0.15));
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+}
+
+.entropy__readout {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.entropy__value {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--color-secondary);
+    line-height: 1;
+    text-shadow: 0 0 18px rgba(6, 182, 212, 0.45);
+}
+
+.entropy__unit {
+    font-size: 13px;
+    color: var(--text-3);
+    font-weight: 500;
+}
+
+.entropy__quality {
+    text-align: right;
+}
+.entropy__quality-label {
+    font-size: 11px;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+.entropy__quality-value {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+.entropy__quality-value[data-level="Low"]      { color: var(--color-danger);  }
+.entropy__quality-value[data-level="Medium"]   { color: var(--color-warning); }
+.entropy__quality-value[data-level="High"]     { color: var(--color-success); }
+.entropy__quality-value[data-level="Excellent"]{
+    color: var(--color-success);
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+}

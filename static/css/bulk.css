@@ -1,0 +1,96 @@
+/* =====================================================================
+   bulk.css  —  Multi-password cards (1 / 5 / 10)
+   ===================================================================== */
+
+.bulk {
+    margin-top: var(--sp-6);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--glass-border);
+}
+
+.bulk__count {
+    display: flex;
+    gap: 8px;
+    margin-bottom: var(--sp-4);
+}
+
+.bulk__chip {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-2);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--t-fast) var(--ease-out);
+}
+.bulk__chip:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-1);
+    transform: translateY(-1px);
+}
+.bulk__chip.is-active {
+    background: var(--grad-brand-soft);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.45);
+}
+
+.bulk__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+.bulk__grid[data-cols="2"] { grid-template-columns: 1fr 1fr; }
+.bulk__grid[data-cols="3"] { grid-template-columns: 1fr 1fr 1fr; }
+
+.bulk__card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: var(--r-md);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-success);
+    animation: fadeUp 0.4s var(--ease-out) both;
+    transition: transform var(--t-fast) var(--ease-out);
+}
+.bulk__card:hover { transform: translateY(-2px); }
+
+.bulk__pwd {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bulk__copy {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.06);
+    display: grid;
+    place-items: center;
+    color: var(--text-2);
+    flex-shrink: 0;
+    transition: background var(--t-fast) var(--ease-out),
+                color var(--t-fast) var(--ease-out);
+}
+.bulk__copy:hover {
+    background: rgba(16, 185, 129, 0.25);
+    color: var(--color-success);
+}
+
+.bulk__empty {
+    text-align: center;
+    color: var(--text-4);
+    font-size: 13px;
+    padding: 18px 0;
+    font-style: italic;
+}

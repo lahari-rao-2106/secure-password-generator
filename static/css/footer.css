@@ -1,0 +1,49 @@
+/* =====================================================================
+   footer.css  —  Premium footer
+   ===================================================================== */
+
+.footer {
+    width: 100%;
+    max-width: 720px;
+    text-align: center;
+    padding: var(--sp-7) var(--sp-4) var(--sp-5);
+    color: var(--text-3);
+    font-size: 13px;
+    animation: fadeUp 0.8s var(--ease-out) both;
+    animation-delay: 0.2s;
+}
+
+.footer__heart {
+    color: var(--color-danger);
+    display: inline-block;
+    animation: iconBounce 1.6s ease-in-out infinite;
+}
+
+.footer__techs {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+}
+.footer__chip {
+    padding: 3px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--r-pill);
+    font-size: 12px;
+    color: var(--text-2);
+    font-family: var(--font-mono);
+    transition: background var(--t-fast) var(--ease-out),
+                color var(--t-fast) var(--ease-out);
+}
+.footer__chip:hover {
+    background: rgba(124, 58, 237, 0.18);
+    color: var(--text-1);
+}
+
+.footer__copy {
+    margin-top: var(--sp-3);
+    color: var(--text-4);
+    font-size: 12px;
+}

@@ -1,0 +1,45 @@
+/* =====================================================================
+   output.css  —  Password display field + show/hide + copy row
+   ===================================================================== */
+
+.output {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: var(--sp-5);
+    animation: fadeUp var(--t-med) var(--ease-out);
+}
+
+.output__field {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--glass-border);
+    background: rgba(5, 8, 22, 0.6);
+    color: var(--color-success);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    word-break: break-all;
+    box-shadow: var(--glow-green), inset 0 0 0 1px rgba(16, 185, 129, 0.15);
+    transition: box-shadow var(--t-med) var(--ease-out);
+    animation: flipIn 0.55s var(--ease-out);
+}
+
+.output__field::placeholder { color: var(--text-4); }
+
+.output__field:focus {
+    outline: none;
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.7),
+                inset 0 0 0 1px rgba(16, 185, 129, 0.3);
+}
+
+/* Small placeholder hint before the first generate. */
+.output__field--empty {
+    color: var(--text-3);
+    font-style: italic;
+    box-shadow: none;
+    animation: none;
+}

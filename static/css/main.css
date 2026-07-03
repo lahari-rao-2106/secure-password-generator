@@ -1,0 +1,24 @@
+/* =====================================================================
+   main.css  —  Entry point
+   Import order matters: tokens first, then base/reset, then layout, then
+   components, then utilities. Keep this file at the top of the page.
+   ===================================================================== */
+
+@import url("./tokens.css");         /* CSS variables (colors, spacing, fonts) */
+@import url("./base.css");            /* Reset + global element defaults */
+@import url("./animations.css");      /* @keyframes library */
+@import url("./background.css");      /* Animated gradient + glow + particles */
+@import url("./typography.css");      /* Heading + body type scale */
+@import url("./card.css");            /* Glass card shell */
+@import url("./slider.css");          /* Range input styling */
+@import url("./toggle.css");          /* Animated toggle switches */
+@import url("./button.css");          /* Generate + copy buttons */
+@import url("./output.css");          /* Password display field */
+@import url("./strength.css");        /* Strength meter + bar */
+@import url("./history.css");         /* History list */
+@import url("./bulk.css");            /* Bulk generation cards */
+@import url("./entropy.css");         /* Entropy display */
+@import url("./tips.css");            /* Rotating security tips */
+@import url("./toast.css");           /* Toast notifications */
+@import url("./footer.css");          /* Footer */
+@import url("./responsive.css");      /* Mobile / tablet breakpoints */

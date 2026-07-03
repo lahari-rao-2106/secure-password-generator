@@ -1,0 +1,51 @@
+/* =====================================================================
+   responsive.css  —  Mobile / tablet breakpoints
+   Only structural/layout rules here - component styles stay where they
+   belong. Keep selectors narrow so we don't fight component CSS.
+   ===================================================================== */
+
+/* Tablet down */
+@media (max-width: 768px) {
+    body { padding: var(--sp-5) var(--sp-3); }
+
+    .card {
+        padding: var(--sp-6) var(--sp-5);
+        max-width: 100%;
+    }
+
+    .toggles { grid-template-columns: 1fr; }
+
+    .bulk__grid[data-cols="3"] { grid-template-columns: 1fr 1fr; }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .brand-title { font-size: 26px; }
+    .subtitle    { font-size: 13px; }
+
+    .card { padding: var(--sp-5) var(--sp-4); border-radius: var(--r-lg); }
+
+    .output { flex-wrap: wrap; }
+    .output__field { font-size: 14px; padding: 12px 14px; }
+
+    .bulk__grid { grid-template-columns: 1fr; }
+    .bulk__grid[data-cols="2"] { grid-template-columns: 1fr; }
+    .bulk__grid[data-cols="3"] { grid-template-columns: 1fr; }
+
+    .entropy { flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
+    .entropy__quality { text-align: left; }
+
+    .toast-stack { top: 12px; right: 12px; left: 12px; }
+    .toast { min-width: 0; max-width: 100%; }
+}
+
+/* Reduced-motion: respect user preference. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

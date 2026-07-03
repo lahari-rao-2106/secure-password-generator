@@ -1,0 +1,65 @@
+/* =====================================================================
+   card.css  —  Main glassmorphic card shell
+   ===================================================================== */
+
+.shell {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: var(--sp-4);
+    flex: 1;
+}
+
+.card {
+    width: 100%;
+    max-width: 520px;
+    padding: var(--sp-7) var(--sp-6) var(--sp-6);
+    border-radius: var(--r-xl);
+    background: var(--glass-bg);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid var(--glass-border);
+
+    color: var(--text-1);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+
+    /* Entrance animation */
+    animation: cardEnter 0.7s var(--ease-out) both;
+}
+
+/* Neon border glow that wraps the card edge. */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg,
+        rgba(37, 99, 235, 0.6),
+        rgba(124, 58, 237, 0.4),
+        rgba(6, 182, 212, 0.6)
+    );
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
+    animation: pulseRing 5s ease-in-out infinite;
+}
+
+/* Card header: brand + subtitle. */
+.card__header {
+    text-align: center;
+    margin-bottom: var(--sp-6);
+}
+
+/* Sub-section groups (slider, toggles, output, strength, etc.). */
+.card__section {
+    margin-top: var(--sp-5);
+}
+.card__section:first-of-type { margin-top: 0; }
